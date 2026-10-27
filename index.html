@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/icon-192.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>PROJECT REBOOT - Built by rohitt</title>
+    <meta name="description" content="Production-ready Personal Operating System for JEE, discipline, fitness, music and self-improvement. Built by rohitt." />
+    
+    <!-- PWA Web App Manifest & Windows / Android / iOS Standalone Meta -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#00f0ff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PROJECT REBOOT" />
+    <meta name="application-name" content="PROJECT REBOOT" />
+    <meta name="msapplication-TileColor" content="#040711" />
+    <meta name="msapplication-navbutton-color" content="#00f0ff" />
+
+    <!-- Google Fonts: Outfit, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+      /* Pre-React Cyber Loading Screen */
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+        background-color: #040711;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #f8fafc;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+      }
+      .loader-ring {
+        position: relative;
+        width: 68px;
+        height: 68px;
+        margin-bottom: 24px;
+      }
+      .loader-ring::before, .loader-ring::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top-color: #00f0ff;
+        animation: cyber-spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      }
+      .loader-ring::after {
+        border-top-color: #8b5cf6;
+        animation-delay: -0.6s;
+      }
+      @keyframes cyber-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .loader-title {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .loader-sub {
+        font-size: 11px;
+        color: #00f0ff;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .loader-author {
+        font-size: 11px;
+        color: #64748b;
+        margin-top: 14px;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </head>
+  <body class="theme-cyber-cyan">
+    <!-- Instant Loading Screen -->
+    <div id="loading-screen">
+      <div class="loader-ring"></div>
+      <div class="loader-title">PROJECT <span style="color:#00f0ff;">REBOOT</span></div>
+      <div class="loader-sub">INITIALIZING LOCAL TELEMETRY</div>
+      <div class="loader-author">BUILT BY ROHITT</div>
+    </div>
+
+    <div id="root"></div>
+
+    <script>
+      // Remove loading screen once window is ready
+      window.addEventListener('load', function() {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(function() {
+            loader.style.visibility = 'hidden';
+          }, 400);
+        }
+      });
+
+      // Register Production PWA Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').then(function(registration) {
+            console.log('[PWA] ServiceWorker registered with scope:', registration.scope);
+          }).catch(function(error) {
+            console.warn('[PWA] ServiceWorker registration failed:', error);
+          });
+        });
+      }
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
